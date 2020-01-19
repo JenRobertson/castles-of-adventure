@@ -33,14 +33,16 @@ function addDesignerButtons() {
     for (const key in STORE.map.key) {
         const element = STORE.map.key[key];    
         let button = document.createElement("button");
+        button.classList.add('button-block');
         button.innerHTML = `<img src='${getSprite(element.sprite).src}'></img>`;
         button.onclick = function() {
-            STORE.activeTool = key;
+            STORE.activeTool = parseInt(key);
         };
         document.body.append(button);
     }
     let button = document.createElement("button");
     button.innerHTML = 'Save map data to clipboard';
+    button.classList.add('button-save');
     button.onclick = function() {
         let dummy = document.createElement("textarea");
         document.body.appendChild(dummy);
@@ -174,6 +176,7 @@ function interactStart(x, y){
     cursorY = Math.trunc((y- canvasElement.offsetTop) * mousePositionFix);
     clicked = true;
     STORE.map.data[Math.trunc(cursorY / sizeOfBlock)][Math.trunc(cursorX / sizeOfBlock)] = STORE.activeTool;
+    // fillBucket(Math.trunc(cursorX / sizeOfBlock), Math.trunc(cursorY / sizeOfBlock), STORE.map.data[Math.trunc(cursorY / sizeOfBlock)][Math.trunc(cursorX / sizeOfBlock)]);
     draw();
 }
 
@@ -188,4 +191,16 @@ function interactMove(x, y){
 
 function interactStop(e) {
     clicked = false;
+}
+
+function fillBucket(x, y, typeToFill) {
+    if(typeof STORE.map.data[y] === 'undefined' || typeof STORE.map.data[y][x] === 'undefined') return;
+    if (STORE.map.data[y][x] === STORE.activeTool) return; // already filled
+    if (STORE.map.data[y][x] !== typeToFill) return; // we should not fill this, wrong colour
+    STORE.map.data[y][x] = STORE.activeTool;
+
+    fillBucket(x - 1, y, typeToFill);
+    fillBucket(x + 1, y, typeToFill);
+    fillBucket(x, y - 1, typeToFill);
+    fillBucket(x, y + 1, typeToFill);
 }
