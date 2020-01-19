@@ -1,5 +1,6 @@
 import './assets/style.css';
 import { map1 } from './map1.js';
+import { getSprite } from './assetLoader.js'
 
 let mousePositionFix, clicked, cursorX, cursorY;
 let STORE = {
@@ -13,8 +14,8 @@ let STORE = {
 };
 
 const VERSION = '0.0.0';
-const HEIGHT = 500 * STORE.increase;
-const WIDTH = 500 * STORE.increase;
+const HEIGHT = 600 * STORE.increase;
+const WIDTH = 600 * STORE.increase;
 const numberOfSquares = 20;
 const sizeOfBlock = WIDTH / numberOfSquares;
 
@@ -32,13 +33,23 @@ function addDesignerButtons() {
     for (const key in STORE.map.key) {
         const element = STORE.map.key[key];    
         let button = document.createElement("button");
-        button.innerHTML = element.description;
-        button.value = element.description;
+        button.innerHTML = `<img src='${getSprite(element.sprite).src}'></img>`;
         button.onclick = function() {
             STORE.activeTool = key;
         };
         document.body.append(button);
     }
+    let button = document.createElement("button");
+    button.innerHTML = 'Save map data to clipboard';
+    button.onclick = function() {
+        let dummy = document.createElement("textarea");
+        document.body.appendChild(dummy);
+        dummy.value = JSON.stringify(STORE.map.data);
+        dummy.select();
+        document.execCommand("copy");
+        document.body.removeChild(dummy);
+    }
+    document.body.append(button);
 }
 
 window.onload = function () {
@@ -112,8 +123,7 @@ function drawMap() {
     const map = STORE.map;
     for (let y = 0; y < map.data.length; y++) {
         for (let x = 0; x < map.data.length; x++) {
-            STORE.ctx.fillStyle = map.key[map.data[y][x]].colour;
-            STORE.ctx.fillRect(x * sizeOfBlock, y * sizeOfBlock, sizeOfBlock, sizeOfBlock);
+            STORE.ctx.drawImage(getSprite(map.key[map.data[y][x]].sprite), x * sizeOfBlock, y * sizeOfBlock, sizeOfBlock, sizeOfBlock);
         }
     }
 }

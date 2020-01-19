@@ -2,12 +2,12 @@ export const map1 = {
     key: {
         0: {
             description: 'floor',
-            colour: '#FFFFFF',
+            sprite: 'tiles',
             walkable: true
         },
         1: {
             description: 'wall',
-            colour: '#000000',
+            sprite: 'wall',
             walkable: false
         }
     },

@@ -46,4 +46,15 @@ canvas {
 button {
     float: left;
     clear: left;
+    width: 50px;
+    height: 50px;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-crisp-edges;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    -ms-interpolation-mode: nearest-neighbor;
+}
+
+button img {
+    width: 100%;
 }
