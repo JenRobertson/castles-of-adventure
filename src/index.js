@@ -14,10 +14,10 @@ let STORE = {
 };
 
 const VERSION = '0.0.0';
-const HEIGHT = 600 * STORE.increase;
-const WIDTH = 600 * STORE.increase;
+const HEIGHT = 600;
+const WIDTH = 600;
 const numberOfSquares = 20;
-const sizeOfBlock = WIDTH / numberOfSquares;
+const sizeOfBlock = HEIGHT / numberOfSquares;
 
 // things needed to show loading bar
 const canvasElement = document.createElement("canvas");
@@ -115,7 +115,7 @@ function draw() {
 }
 
 function drawCharacter() {
-    STORE.ctx.fillStyle = 'red';
+    STORE.ctx.fillStyle = 'lime';
     STORE.ctx.fillRect(STORE.character.x * sizeOfBlock, STORE.character.y * sizeOfBlock, sizeOfBlock, sizeOfBlock);
 }
 

@@ -1,14 +1,20 @@
 export const map1 = {
     key: {
         0: {
-            description: 'floor',
             sprite: 'tiles',
             walkable: true
         },
         1: {
-            description: 'wall',
             sprite: 'wall',
             walkable: false
+        },
+        3: {
+            sprite: 'water',
+            walkable: false
+        },
+        4: {
+            sprite: 'sand',
+            walkable: true
         }
     },
     data: [
