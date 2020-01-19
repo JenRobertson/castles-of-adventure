@@ -1,9 +1,12 @@
 body {
     background-color: #332515;
     margin: 0px;
+    width: fit-content;
+    margin: 0 auto;
 }
 
 canvas {
+    float: right;
     display: block;
     margin: 0 auto;
     border: none;
@@ -40,3 +43,7 @@ canvas {
       left: 0;
     }
 } */
+button {
+    float: left;
+    clear: left;
+}

@@ -1,13 +1,15 @@
 import './assets/style.css';
 import { map1 } from './map1.js';
 
+let mousePositionFix, clicked, cursorX, cursorY;
 let STORE = {
     increase: 1,
     map: map1,
     character: {
         x: 2,
         y: 6
-    }
+    },
+    activeTool: 0
 };
 
 const VERSION = '0.0.0';
@@ -24,13 +26,38 @@ STORE.ctx = canvasElement.getContext("2d", {alpha: false});
 STORE.ctx.imageSmoothingEnabled = false;
 document.body.append(canvasElement);
 resize();
+addDesignerButtons();
+
+function addDesignerButtons() {
+    for (const key in STORE.map.key) {
+        const element = STORE.map.key[key];    
+        let button = document.createElement("button");
+        button.innerHTML = element.description;
+        button.value = element.description;
+        button.onclick = function() {
+            STORE.activeTool = key;
+        };
+        document.body.append(button);
+    }
+}
 
 window.onload = function () {
     console.log('version ' + VERSION);
-    window.addEventListener('resize', resize, false);
-    window.addEventListener('keydown', keydown, true);
+    addEventListeners();
     addPolyfills();
     draw();
+}
+
+function addEventListeners() {
+    window.addEventListener('resize', resize, false);
+    window.addEventListener('keydown', keydown, true);
+    canvasElement.addEventListener('mousedown',(e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        interactStart(e.pageX, e.pageY); 
+    });
+    canvasElement.addEventListener('mousemove', (e) => { interactMove(e.pageX, e.pageY, true)});
+    canvasElement.addEventListener('mouseup', (e) => {interactStop(e)});
 }
 
 // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/code
@@ -107,6 +134,11 @@ function resize (){
     
     canvasElement.style.width = width + 'px';
     canvasElement.style.height = height + 'px';
+    mousePositionFix = getMousePositionFix();
+};
+
+function getMousePositionFix (){
+    return WIDTH / canvasElement.offsetWidth;// prev 0.2
 };
 
 function addPolyfills() {
@@ -126,3 +158,24 @@ function addPolyfills() {
 // window.pagehide = function () {
 //     save();
 // }
+
+function interactStart(x, y){
+    cursorX = Math.trunc((x - canvasElement.offsetLeft)  * mousePositionFix);
+    cursorY = Math.trunc((y- canvasElement.offsetTop) * mousePositionFix);
+    clicked = true;
+    STORE.map.data[Math.trunc(cursorY / sizeOfBlock)][Math.trunc(cursorX / sizeOfBlock)] = STORE.activeTool;
+    draw();
+}
+
+function interactMove(x, y){
+    cursorX = Math.trunc((x - canvasElement.offsetLeft)  * mousePositionFix);
+    cursorY = Math.trunc((y- canvasElement.offsetTop) * mousePositionFix);
+    if (clicked) {
+        STORE.map.data[Math.trunc(cursorY / sizeOfBlock)][Math.trunc(cursorX / sizeOfBlock)] = STORE.activeTool;
+        draw();
+    }
+}
+
+function interactStop(e) {
+    clicked = false;
+}
