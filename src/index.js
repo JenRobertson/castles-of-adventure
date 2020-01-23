@@ -3,6 +3,12 @@ import { map1 } from './map1.js';
 import { getSprite } from './assetLoader.js'
 
 let mousePositionFix, clicked, cursorX, cursorY;
+
+const tools = {
+    brush: 'BRUSH',
+    fill: 'FILL',
+};
+
 let STORE = {
     increase: 1,
     map: map1,
@@ -10,7 +16,8 @@ let STORE = {
         x: 2,
         y: 6
     },
-    activeTool: 0
+    activeMaterial: 0,
+    activeTool: tools.brush
 };
 
 const VERSION = '0.0.0';
@@ -30,16 +37,19 @@ resize();
 addDesignerButtons();
 
 function addDesignerButtons() {
+    // colour palette buttons
     for (const key in STORE.map.key) {
         const element = STORE.map.key[key];    
         let button = document.createElement("button");
         button.classList.add('button-block');
         button.innerHTML = `<img src='${getSprite(element.sprite).src}'></img>`;
         button.onclick = function() {
-            STORE.activeTool = parseInt(key);
+            STORE.activeMaterial = parseInt(key);
         };
         document.body.append(button);
     }
+
+    // save data button
     let button = document.createElement("button");
     button.innerHTML = 'Save map data to clipboard';
     button.classList.add('button-save');
@@ -52,6 +62,38 @@ function addDesignerButtons() {
         document.body.removeChild(dummy);
     }
     document.body.append(button);
+
+    // brush button
+    let brushButton = document.createElement("button");
+    brushButton.innerHTML = 'Brush';
+    brushButton.classList.add('button-tool');
+    brushButton.onclick = function() {
+        STORE.activeTool = tools.brush;
+        document.body.style.cursor = `url('${getSprite('pencil-tool').src}') 0 32, auto`;	
+    }
+    document.body.append(brushButton);
+
+    // fill button
+    let fillButton = document.createElement("button");
+    fillButton.innerHTML = 'fill';
+    fillButton.classList.add('button-tool');
+    fillButton.onclick = function() {
+        STORE.activeTool = tools.fill;
+        document.body.style.cursor = `url('${getSprite('fill-tool').src}') 32 16, auto`;	
+    }
+    document.body.append(fillButton);
+
+    // clear button
+    let clearButton = document.createElement("button");
+    clearButton.innerHTML = 'Clear';
+    clearButton.classList.add('button-tool');
+    clearButton.onclick = function() {
+        STORE.map.data.forEach(element => {
+            element.fill(3);
+        });
+        draw();
+    }
+    document.body.append(clearButton);
 }
 
 window.onload = function () {
@@ -175,8 +217,12 @@ function interactStart(x, y){
     cursorX = Math.trunc((x - canvasElement.offsetLeft)  * mousePositionFix);
     cursorY = Math.trunc((y- canvasElement.offsetTop) * mousePositionFix);
     clicked = true;
-    STORE.map.data[Math.trunc(cursorY / sizeOfBlock)][Math.trunc(cursorX / sizeOfBlock)] = STORE.activeTool;
-    // fillBucket(Math.trunc(cursorX / sizeOfBlock), Math.trunc(cursorY / sizeOfBlock), STORE.map.data[Math.trunc(cursorY / sizeOfBlock)][Math.trunc(cursorX / sizeOfBlock)]);
+
+    if (STORE.activeTool === tools.brush) {
+        STORE.map.data[Math.trunc(cursorY / sizeOfBlock)][Math.trunc(cursorX / sizeOfBlock)] = STORE.activeMaterial;
+    } else {
+        fillBucket(Math.trunc(cursorX / sizeOfBlock), Math.trunc(cursorY / sizeOfBlock), STORE.map.data[Math.trunc(cursorY / sizeOfBlock)][Math.trunc(cursorX / sizeOfBlock)]);
+    }
     draw();
 }
 
@@ -184,7 +230,7 @@ function interactMove(x, y){
     cursorX = Math.trunc((x - canvasElement.offsetLeft)  * mousePositionFix);
     cursorY = Math.trunc((y- canvasElement.offsetTop) * mousePositionFix);
     if (clicked) {
-        STORE.map.data[Math.trunc(cursorY / sizeOfBlock)][Math.trunc(cursorX / sizeOfBlock)] = STORE.activeTool;
+        STORE.map.data[Math.trunc(cursorY / sizeOfBlock)][Math.trunc(cursorX / sizeOfBlock)] = STORE.activeMaterial;
         draw();
     }
 }
@@ -195,9 +241,9 @@ function interactStop(e) {
 
 function fillBucket(x, y, typeToFill) {
     if(typeof STORE.map.data[y] === 'undefined' || typeof STORE.map.data[y][x] === 'undefined') return;
-    if (STORE.map.data[y][x] === STORE.activeTool) return; // already filled
+    if (STORE.map.data[y][x] === STORE.activeMaterial) return; // already filled
     if (STORE.map.data[y][x] !== typeToFill) return; // we should not fill this, wrong colour
-    STORE.map.data[y][x] = STORE.activeTool;
+    STORE.map.data[y][x] = STORE.activeMaterial;
 
     fillBucket(x - 1, y, typeToFill);
     fillBucket(x + 1, y, typeToFill);
