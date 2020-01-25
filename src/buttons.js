@@ -62,7 +62,7 @@ export function addDesignerButtons() {
     clearButton.classList.add('button-tool');
     clearButton.onclick = function() {
         STORE.map.data.forEach(element => {
-            element.fill(3);
+            element.fill(0);
         });
         draw();
     }
