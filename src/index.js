@@ -1,7 +1,7 @@
 import './assets/style.css';
-import { getSprite } from './assetLoader.js'
 import { addDesignerButtons } from './buttons.js'
 import { STORE } from './store.js';
+import { draw } from './draw.js';
 
 let mousePositionFix, clicked, cursorX, cursorY;
 
@@ -9,7 +9,7 @@ const VERSION = '0.0.0';
 const HEIGHT = 600;
 const WIDTH = 600;
 const numberOfSquares = 20;
-const sizeOfBlock = HEIGHT / numberOfSquares;
+STORE.sizeOfBlock = HEIGHT / numberOfSquares;
 
 // things needed to show loading bar
 const canvasElement = document.createElement("canvas");
@@ -19,8 +19,6 @@ STORE.ctx = canvasElement.getContext("2d", {alpha: false});
 STORE.ctx.imageSmoothingEnabled = false;
 document.body.append(canvasElement);
 resize();
-
-
 
 window.onload = function () {
     console.log('version ' + VERSION);
@@ -80,24 +78,6 @@ function keydown() {
     event.preventDefault();
 };
 
-function draw() {
-    drawMap();
-    drawCharacter();
-}
-
-function drawCharacter() {
-    STORE.ctx.fillStyle = 'lime';
-    STORE.ctx.fillRect(STORE.character.x * sizeOfBlock, STORE.character.y * sizeOfBlock, sizeOfBlock, sizeOfBlock);
-}
-
-function drawMap() {
-    const map = STORE.map;
-    for (let y = 0; y < map.data.length; y++) {
-        for (let x = 0; x < map.data.length; x++) {
-            STORE.ctx.drawImage(getSprite(map.key[map.data[y][x]].sprite), x * sizeOfBlock, y * sizeOfBlock, sizeOfBlock, sizeOfBlock);
-        }
-    }
-}
 
 function resize (){
     const canvasRatio = canvasElement.height / canvasElement.width;
@@ -161,8 +141,8 @@ function click() {
     if (!clicked) return;
 
     // coordinates of where on map click was
-    const dataX = Math.trunc(cursorX / sizeOfBlock);
-    const dataY = Math.trunc(cursorY / sizeOfBlock);
+    const dataX = Math.trunc(cursorX / STORE.sizeOfBlock);
+    const dataY = Math.trunc(cursorY / STORE.sizeOfBlock);
     
     switch (STORE.activeTool) {
         case STORE.tools.brush:

@@ -1,5 +1,6 @@
 import { STORE } from './store.js';
 import { getSprite } from './assetLoader.js'
+import { draw } from './draw';
 
 export function addDesignerButtons() {
     // colour palette buttons
@@ -9,9 +10,13 @@ export function addDesignerButtons() {
         button.classList.add('button-block');
         button.innerHTML = `<img src='${getSprite(element.sprite).src}'></img>`;
         button.onclick = function() {
+            STORE.map.key[STORE.activeMaterial].button.classList.remove('active');
             STORE.activeMaterial = parseInt(key);
+            STORE.map.key[STORE.activeMaterial].button.classList.add('active');
         };
         document.body.append(button);
+        element.button = button;
+        STORE.map.key[STORE.activeMaterial].button.classList.add('active')
     }
 
     // save data button
