@@ -58,6 +58,30 @@ export function addDesignerButtons() {
     }
     document.body.append(fillButton);
 
+    // undo button
+    undoButton = document.createElement("button");
+    undoButton.innerHTML = `<img src='${getSprite('undo-tool').src}'></img>`;
+    undoButton.classList.add('button-tool');
+    undoButton.onclick = function() {
+        STORE.historyIndex++;
+        STORE.map.data = JSON.parse(JSON.stringify(STORE.history[STORE.historyIndex]));
+        draw();
+        updateHistoryButtons();
+    }
+    document.body.append(undoButton);
+
+    // redo button
+    redoButton = document.createElement("button");
+    redoButton.innerHTML =  `<img src='${getSprite('redo-tool').src}'></img>`;
+    redoButton.classList.add('button-tool');
+    redoButton.onclick = function() {
+        STORE.historyIndex--;
+        STORE.map.data = JSON.parse(JSON.stringify(STORE.history[STORE.historyIndex]));
+        draw();
+        updateHistoryButtons();
+    }
+    document.body.append(redoButton);
+
     // clear button
     let clearButton = document.createElement("button");
     clearButton.innerHTML = 'Clear';
@@ -67,6 +91,7 @@ export function addDesignerButtons() {
             element.fill(0);
         });
         draw();
+        saveMapToHistory();
     }
     document.body.append(clearButton);
 
@@ -83,30 +108,6 @@ export function addDesignerButtons() {
         document.body.removeChild(dummy);
     }
     document.body.append(saveMapButton);
-
-    // undo button
-    undoButton = document.createElement("button");
-    undoButton.innerHTML = 'Undo';
-    undoButton.classList.add('button-tool');
-    undoButton.onclick = function() {
-        STORE.historyIndex++;
-        STORE.map.data = JSON.parse(JSON.stringify(STORE.history[STORE.historyIndex]));
-        draw();
-        updateHistoryButtons();
-    }
-    document.body.append(undoButton);
-
-    // redo button
-    redoButton = document.createElement("button");
-    redoButton.innerHTML = 'Redo';
-    redoButton.classList.add('button-tool');
-    redoButton.onclick = function() {
-        STORE.historyIndex--;
-        STORE.map.data = JSON.parse(JSON.stringify(STORE.history[STORE.historyIndex]));
-        draw();
-        updateHistoryButtons();
-    }
-    document.body.append(redoButton);
 }
 
 export function updateHistoryButtons() {
@@ -121,4 +122,12 @@ export function updateHistoryButtons() {
     } else {
         redoButton.disabled = false;
     }
+}
+
+export function saveMapToHistory() {
+    // if we have gone back in time and then draw again, remove the future first.
+    STORE.history.splice(0,STORE.historyIndex);
+    STORE.history.unshift(JSON.parse(JSON.stringify(STORE.map.data)));
+    STORE.historyIndex = 0;
+    updateHistoryButtons();
 }

@@ -1,5 +1,5 @@
 import './assets/style.css';
-import { addDesignerButtons, updateHistoryButtons } from './buttons.js'
+import { addDesignerButtons, updateHistoryButtons, saveMapToHistory } from './buttons.js'
 import { STORE } from './store.js';
 import { draw } from './draw.js';
 
