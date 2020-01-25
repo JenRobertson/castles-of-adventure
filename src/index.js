@@ -1,24 +1,9 @@
 import './assets/style.css';
-import { map1 } from './map1.js';
 import { getSprite } from './assetLoader.js'
+import { addDesignerButtons } from './buttons.js'
+import { STORE } from './store.js';
 
 let mousePositionFix, clicked, cursorX, cursorY;
-
-const tools = {
-    brush: 'BRUSH',
-    fill: 'FILL',
-};
-
-let STORE = {
-    increase: 1,
-    map: map1,
-    character: {
-        x: 2,
-        y: 6
-    },
-    activeMaterial: 0,
-    activeTool: tools.brush
-};
 
 const VERSION = '0.0.0';
 const HEIGHT = 600;
@@ -34,72 +19,14 @@ STORE.ctx = canvasElement.getContext("2d", {alpha: false});
 STORE.ctx.imageSmoothingEnabled = false;
 document.body.append(canvasElement);
 resize();
-addDesignerButtons();
 
-function addDesignerButtons() {
-    // colour palette buttons
-    for (const key in STORE.map.key) {
-        const element = STORE.map.key[key];    
-        let button = document.createElement("button");
-        button.classList.add('button-block');
-        button.innerHTML = `<img src='${getSprite(element.sprite).src}'></img>`;
-        button.onclick = function() {
-            STORE.activeMaterial = parseInt(key);
-        };
-        document.body.append(button);
-    }
 
-    // save data button
-    let button = document.createElement("button");
-    button.innerHTML = 'Save map data to clipboard';
-    button.classList.add('button-save');
-    button.onclick = function() {
-        let dummy = document.createElement("textarea");
-        document.body.appendChild(dummy);
-        dummy.value = JSON.stringify(STORE.map.data);
-        dummy.select();
-        document.execCommand("copy");
-        document.body.removeChild(dummy);
-    }
-    document.body.append(button);
-
-    // brush button
-    let brushButton = document.createElement("button");
-    brushButton.innerHTML = 'Brush';
-    brushButton.classList.add('button-tool');
-    brushButton.onclick = function() {
-        STORE.activeTool = tools.brush;
-        document.body.style.cursor = `url('${getSprite('pencil-tool').src}') 0 32, auto`;	
-    }
-    document.body.append(brushButton);
-
-    // fill button
-    let fillButton = document.createElement("button");
-    fillButton.innerHTML = 'fill';
-    fillButton.classList.add('button-tool');
-    fillButton.onclick = function() {
-        STORE.activeTool = tools.fill;
-        document.body.style.cursor = `url('${getSprite('fill-tool').src}') 32 16, auto`;	
-    }
-    document.body.append(fillButton);
-
-    // clear button
-    let clearButton = document.createElement("button");
-    clearButton.innerHTML = 'Clear';
-    clearButton.classList.add('button-tool');
-    clearButton.onclick = function() {
-        STORE.map.data.forEach(element => {
-            element.fill(3);
-        });
-        draw();
-    }
-    document.body.append(clearButton);
-}
 
 window.onload = function () {
     console.log('version ' + VERSION);
     addEventListeners();
     addPolyfills();
+    addDesignerButtons();
     draw();
 }
 
@@ -217,26 +144,35 @@ function interactStart(x, y){
     cursorX = Math.trunc((x - canvasElement.offsetLeft)  * mousePositionFix);
     cursorY = Math.trunc((y- canvasElement.offsetTop) * mousePositionFix);
     clicked = true;
-
-    if (STORE.activeTool === tools.brush) {
-        STORE.map.data[Math.trunc(cursorY / sizeOfBlock)][Math.trunc(cursorX / sizeOfBlock)] = STORE.activeMaterial;
-    } else {
-        fillBucket(Math.trunc(cursorX / sizeOfBlock), Math.trunc(cursorY / sizeOfBlock), STORE.map.data[Math.trunc(cursorY / sizeOfBlock)][Math.trunc(cursorX / sizeOfBlock)]);
-    }
-    draw();
+    click();
 }
 
 function interactMove(x, y){
     cursorX = Math.trunc((x - canvasElement.offsetLeft)  * mousePositionFix);
     cursorY = Math.trunc((y- canvasElement.offsetTop) * mousePositionFix);
-    if (clicked) {
-        STORE.map.data[Math.trunc(cursorY / sizeOfBlock)][Math.trunc(cursorX / sizeOfBlock)] = STORE.activeMaterial;
-        draw();
-    }
+    click();
 }
 
 function interactStop(e) {
     clicked = false;
+}
+
+function click() {
+    if (!clicked) return;
+
+    // coordinates of where on map click was
+    const dataX = Math.trunc(cursorX / sizeOfBlock);
+    const dataY = Math.trunc(cursorY / sizeOfBlock);
+    
+    switch (STORE.activeTool) {
+        case STORE.tools.brush:
+            STORE.map.data[dataY][dataX] = STORE.activeMaterial
+            break;
+        case STORE.tools.fill:
+            fillBucket(dataX, dataY, STORE.map.data[dataY][dataX]);
+            break;
+    }
+    draw();
 }
 
 function fillBucket(x, y, typeToFill) {
