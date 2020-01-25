@@ -2,6 +2,8 @@ import { STORE } from './store.js';
 import { getSprite } from './assetLoader.js'
 import { draw } from './draw';
 
+let undoButton, redoButton;
+
 export function addDesignerButtons() {
     // colour palette buttons
     for (const key in STORE.map.key) {
@@ -81,4 +83,42 @@ export function addDesignerButtons() {
         document.body.removeChild(dummy);
     }
     document.body.append(saveMapButton);
+
+    // undo button
+    undoButton = document.createElement("button");
+    undoButton.innerHTML = 'Undo';
+    undoButton.classList.add('button-tool');
+    undoButton.onclick = function() {
+        STORE.historyIndex++;
+        STORE.map.data = STORE.history[STORE.historyIndex];
+        draw();
+        updateHistoryButtons();
+    }
+    document.body.append(undoButton);
+
+    // redo button
+    redoButton = document.createElement("button");
+    redoButton.innerHTML = 'Redo';
+    redoButton.classList.add('button-tool');
+    redoButton.onclick = function() {
+        STORE.historyIndex--;
+        STORE.map.data = STORE.history[STORE.historyIndex];
+        draw();
+        updateHistoryButtons();
+    }
+    document.body.append(redoButton);
+}
+
+export function updateHistoryButtons() {
+    if (STORE.history.length === 1 || STORE.historyIndex === STORE.history.length - 1){
+        undoButton.disabled = true;
+    } else {
+        undoButton.disabled = false;
+    }
+
+    if (STORE.history.length === 1 || STORE.historyIndex === 0){
+        redoButton.disabled = true;
+    } else {
+        redoButton.disabled = false;
+    }
 }

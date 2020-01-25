@@ -12,5 +12,7 @@ export let STORE = {
     tools: {
         brush: 'BRUSH',
         fill: 'FILL',
-    }
+    },
+    history: [],
+    historyIndex: 0
 };

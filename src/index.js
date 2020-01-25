@@ -1,5 +1,5 @@
 import './assets/style.css';
-import { addDesignerButtons } from './buttons.js'
+import { addDesignerButtons, updateHistoryButtons } from './buttons.js'
 import { STORE } from './store.js';
 import { draw } from './draw.js';
 
@@ -26,6 +26,7 @@ window.onload = function () {
     addPolyfills();
     addDesignerButtons();
     draw();
+    saveMapToHistory();
 }
 
 function addEventListeners() {
@@ -135,6 +136,7 @@ function interactMove(x, y){
 
 function interactStop(e) {
     clicked = false;
+    saveMapToHistory();
 }
 
 function click() {
@@ -165,4 +167,11 @@ function fillBucket(x, y, typeToFill) {
     fillBucket(x + 1, y, typeToFill);
     fillBucket(x, y - 1, typeToFill);
     fillBucket(x, y + 1, typeToFill);
+}
+
+function saveMapToHistory() {
+    STORE.history.unshift(JSON.parse(JSON.stringify(STORE.map.data)));
+    
+    
+    updateHistoryButtons();
 }
