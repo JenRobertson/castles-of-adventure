@@ -14,7 +14,7 @@ export function addDesignerButtons() {
             STORE.activeMaterial = parseInt(key);
             STORE.map.key[STORE.activeMaterial].button.classList.add('active');
         };
-        document.body.append(button);
+    document.body.append(button);
         element.button = button;
         STORE.map.key[STORE.activeMaterial].button.classList.add('active')
     }
@@ -62,7 +62,7 @@ export function addDesignerButtons() {
             fillButton.classList.remove('active');
         } else {
             STORE.activeTool = STORE.tools.fill;
-            document.body.style.cursor = `url('${getSprite('fill-tool').src}') 0 32, auto`;	
+            document.body.style.cursor = `url('${getSprite('fill-tool').src}') 32 16, auto`;	
             fillButton.classList.add('active');
             brushButton.classList.remove('active');
         }
