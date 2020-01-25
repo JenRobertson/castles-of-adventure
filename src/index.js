@@ -170,8 +170,9 @@ function fillBucket(x, y, typeToFill) {
 }
 
 function saveMapToHistory() {
+    // if we have gone back in time and then draw again, remove the future first.
+    STORE.history.splice(0,STORE.historyIndex);
     STORE.history.unshift(JSON.parse(JSON.stringify(STORE.map.data)));
-    
-    
+    STORE.historyIndex = 0;
     updateHistoryButtons();
 }

@@ -90,7 +90,7 @@ export function addDesignerButtons() {
     undoButton.classList.add('button-tool');
     undoButton.onclick = function() {
         STORE.historyIndex++;
-        STORE.map.data = STORE.history[STORE.historyIndex];
+        STORE.map.data = JSON.parse(JSON.stringify(STORE.history[STORE.historyIndex]));
         draw();
         updateHistoryButtons();
     }
@@ -102,7 +102,7 @@ export function addDesignerButtons() {
     redoButton.classList.add('button-tool');
     redoButton.onclick = function() {
         STORE.historyIndex--;
-        STORE.map.data = STORE.history[STORE.historyIndex];
+        STORE.map.data = JSON.parse(JSON.stringify(STORE.history[STORE.historyIndex]));
         draw();
         updateHistoryButtons();
     }
