@@ -46,9 +46,10 @@ canvas {
 button {
     float: left;
     clear: left;
+    border: 1px black solid;
 }
 
-.button-block {
+.button-block, .button-tool {
     width: 50px;
     height: 50px;
     image-rendering: -moz-crisp-edges;
@@ -58,9 +59,6 @@ button {
     -ms-interpolation-mode: nearest-neighbor;
 }
 
-.button-save {
-    width: 90px;
-}
 button img {
     width: 100%;
 }

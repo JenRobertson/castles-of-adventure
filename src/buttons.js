@@ -19,23 +19,10 @@ export function addDesignerButtons() {
         STORE.map.key[STORE.activeMaterial].button.classList.add('active')
     }
 
-    // save data button
-    let button = document.createElement("button");
-    button.innerHTML = 'Save map data to clipboard';
-    button.classList.add('button-save');
-    button.onclick = function() {
-        let dummy = document.createElement("textarea");
-        document.body.appendChild(dummy);
-        dummy.value = JSON.stringify(STORE.map.data);
-        dummy.select();
-        document.execCommand("copy");
-        document.body.removeChild(dummy);
-    }
-    document.body.append(button);
 
     // brush button
     let brushButton = document.createElement("button");
-    brushButton.innerHTML = 'Brush';
+    brushButton.innerHTML = `<img src='${getSprite('pencil-tool').src}'></img>`;
     brushButton.classList.add('button-tool');
     brushButton.onclick = function() {
         if (STORE.activeTool === STORE.tools.brush) {
@@ -53,7 +40,7 @@ export function addDesignerButtons() {
 
     // fill button
     let fillButton = document.createElement("button");
-    fillButton.innerHTML = 'fill';
+    fillButton.innerHTML = `<img src='${getSprite('fill-tool').src}'></img>`;
     fillButton.classList.add('button-tool');
     fillButton.onclick = function() {
         if (STORE.activeTool === STORE.tools.fill) {
@@ -80,4 +67,18 @@ export function addDesignerButtons() {
         draw();
     }
     document.body.append(clearButton);
+
+    // save data button
+    let saveMapButton = document.createElement("button");
+    saveMapButton.innerHTML = 'Copy Map';
+    saveMapButton.classList.add('button-tool');
+    saveMapButton.onclick = function() {
+        let dummy = document.createElement("textarea");
+        document.body.appendChild(dummy);
+        dummy.value = JSON.stringify(STORE.map.data);
+        dummy.select();
+        document.execCommand("copy");
+        document.body.removeChild(dummy);
+    }
+    document.body.append(saveMapButton);
 }
