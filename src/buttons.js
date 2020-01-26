@@ -2,6 +2,7 @@ import { STORE } from './store.js';
 import { getSprite } from './assetLoader.js'
 import { draw } from './draw';
 
+const UNDO_LIMIT = 100;
 let undoButton, redoButton;
 
 export function addDesignerButtons() {
@@ -130,4 +131,7 @@ export function saveMapToHistory() {
     STORE.history.unshift(JSON.parse(JSON.stringify(STORE.map.data)));
     STORE.historyIndex = 0;
     updateHistoryButtons();
+    if (STORE.history.length > UNDO_LIMIT) {
+        STORE.history.length = UNDO_LIMIT;
+    }
 }
