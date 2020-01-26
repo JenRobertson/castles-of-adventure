@@ -38,7 +38,9 @@ function addEventListeners() {
         interactStart(e.pageX, e.pageY); 
     });
     canvasElement.addEventListener('mousemove', (e) => { interactMove(e.pageX, e.pageY, true)});
-    canvasElement.addEventListener('mouseup', (e) => {interactStop(e)});
+    canvasElement.addEventListener('mouseup', (e) => {interactStop()});
+    canvasElement.addEventListener('mouseleave', (e) => {interactStop()});
+    canvasElement.addEventListener('mouseenter', (e) => {interactStop()});
 }
 
 // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/code
@@ -134,9 +136,11 @@ function interactMove(x, y){
     click();
 }
 
-function interactStop(e) {
+function interactStop() {
+    if (clicked) {
+        saveMapToHistory();
+    }
     clicked = false;
-    saveMapToHistory();
 }
 
 function click() {
@@ -145,8 +149,8 @@ function click() {
     // coordinates of where on map click was
     const dataX = Math.trunc(cursorX / STORE.sizeOfBlock);
     const dataY = Math.trunc(cursorY / STORE.sizeOfBlock);
-    
-    switch (STORE.activeTool) {
+
+  switch (STORE.activeTool) {
         case STORE.tools.brush:
             STORE.map.data[dataY][dataX] = STORE.activeMaterial
             break;
