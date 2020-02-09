@@ -1,4 +1,4 @@
-export function getBlockLocation(map, y, x) {
+export function getBlockSprite(map, y, x) {
     const block = map.key[map.data[y][x]];
     const blockType = block.type || block.sprite;
     if (!block.hasEdges) return blockType;
