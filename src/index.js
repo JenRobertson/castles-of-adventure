@@ -139,12 +139,6 @@ function interactMove(x, y){
 
 function interactStop() {
     if (clicked) {
-        for (let y = 0; y < STORE.map.data.length; y++) {
-            for (let x = 0; x < STORE.map.data.length; x++) {
-                STORE.map.data[y][x] = getBlockSprite(STORE.map, y, x);
-            }
-        }
-        draw();
         saveMapToHistory();
     }
     clicked = false;
@@ -160,29 +154,37 @@ function click() {
   switch (STORE.activeTool) {
         case STORE.tools.brush:
             STORE.map.data[dataY][dataX] = STORE.activeMaterial;
+            makeEdges(dataY, dataX)
             break;
         case STORE.tools.fill:
             fillBucket(dataX, dataY, STORE.map.data[dataY][dataX]);
+            // make edges for whole map
+            for (let y = 0; y < STORE.map.data.length; y++) {
+                for (let x = 0; x < STORE.map.data.length; x++) {
+                    STORE.map.data[y][x] = getBlockSprite(STORE.map, y, x);
+                }
+            }
             break;
     }
     draw();
 }
 
-// function makeEdges(y, x){
-//     const map = STORE.map;
-//     // todo deal with edge of map
-//     STORE.map.data[y - 1][x - 1] = getBlockSprite(map, y - 1, x - 1);
-//     STORE.map.data[y - 1][x]     = getBlockSprite(map, y - 1, x);
-//     STORE.map.data[y - 1][x + 1] = getBlockSprite(map, y - 1, x + 1);
+function makeEdges(y, x){
+    const map = STORE.map;
+    // todo deal with edge of map
+    // todo what should happen when filling in the edge parts with another tools (e.g. filling in wall with water)
+    STORE.map.data[y - 1][x - 1] = getBlockSprite(map, y - 1, x - 1);
+    STORE.map.data[y - 1][x]     = getBlockSprite(map, y - 1, x);
+    STORE.map.data[y - 1][x + 1] = getBlockSprite(map, y - 1, x + 1);
 
-//     STORE.map.data[y][x - 1] = getBlockSprite(map, y, x - 1);
-//     STORE.map.data[y][x] =     getBlockSprite(map, y, x);
-//     STORE.map.data[y][x + 1] = getBlockSprite(map, y, x + 1);
+    STORE.map.data[y][x - 1] = getBlockSprite(map, y, x - 1);
+    STORE.map.data[y][x] =     getBlockSprite(map, y, x);
+    STORE.map.data[y][x + 1] = getBlockSprite(map, y, x + 1);
 
-//     STORE.map.data[y + 1][x - 1] = getBlockSprite(map, y + 1, x - 1);
-//     STORE.map.data[y + 1][x]     = getBlockSprite(map, y + 1, x);
-//     STORE.map.data[y + 1][x + 1] = getBlockSprite(map, y + 1, x + 1);
-// }
+    STORE.map.data[y + 1][x - 1] = getBlockSprite(map, y + 1, x - 1);
+    STORE.map.data[y + 1][x]     = getBlockSprite(map, y + 1, x);
+    STORE.map.data[y + 1][x + 1] = getBlockSprite(map, y + 1, x + 1);
+}
 
 function fillBucket(x, y, typeToFill) {
     if(typeof STORE.map.data[y] === 'undefined' || typeof STORE.map.data[y][x] === 'undefined') return;
