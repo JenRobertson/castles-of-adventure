@@ -1,7 +1,7 @@
 export function getBlockLocation(map, y, x) {
     const block = map.key[map.data[y][x]];
-    const blockType = block.type;
-    if (!block.hasEdges) return block.sprite;
+    const blockType = block.type || block.sprite;
+    if (!block.hasEdges) return blockType;
     let blockLabelArray = [blockType];
 
     const blockAbove = map.key[map.data[y - 1] && map.data[y - 1][x]];
@@ -13,28 +13,18 @@ export function getBlockLocation(map, y, x) {
     const blockBelowType = blockBelow && blockBelow.type; 
     const blockLeftType = blockLeft && blockLeft.type; 
     const blockRightType = blockRight && blockRight.type; 
-    
 
-    if (blockAboveType !== blockType &&
-        blockBelowType !== blockType &&
-        blockLeftType !== blockType &&
-        blockRightType !== blockType) {
-        return blockLabelArray[0];
-    }
-
-    if (blockAboveType === blockType && blockBelowType === blockType) {
-        blockLabelArray.push('middle')
-    } else if (blockAboveType !== blockType) {
+    if (blockAboveType !== blockType) {
         blockLabelArray.push('top')
-    } else if (blockBelowType !== blockType) {
+    }
+    if (blockBelowType !== blockType) {
         blockLabelArray.push('bottom')
     }
     
-    if (blockLeftType === blockType && blockRightType === blockType) {
-        blockLabelArray.push('middle')
-    } else if (blockLeftType !== blockType) {
+    if (blockLeftType !== blockType) {
         blockLabelArray.push('left')
-    } else if (blockRightType !== blockType) {
+    }
+    if (blockRightType !== blockType) {
         blockLabelArray.push('right')
     }
 
