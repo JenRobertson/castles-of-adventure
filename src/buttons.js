@@ -9,15 +9,16 @@ export function addDesignerButtons() {
     // colour palette buttons
     for (const key in STORE.map.key) {
         const element = STORE.map.key[key];    
+        if (element.isEdge) continue;
         let button = document.createElement("button");
         button.classList.add('button-block');
         button.innerHTML = `<img src='${getSprite(element.sprite).src}'></img>`;
         button.onclick = function() {
             STORE.map.key[STORE.activeMaterial].button.classList.remove('active');
-            STORE.activeMaterial = parseInt(key);
+            STORE.activeMaterial = key;
             STORE.map.key[STORE.activeMaterial].button.classList.add('active');
         };
-    document.body.append(button);
+        document.body.append(button);
         element.button = button;
         STORE.map.key[STORE.activeMaterial].button.classList.add('active')
     }
@@ -89,7 +90,7 @@ export function addDesignerButtons() {
     clearButton.classList.add('button-tool');
     clearButton.onclick = function() {
         STORE.map.data.forEach(element => {
-            element.fill(0);
+            element.fill('blank');
         });
         draw();
         saveMapToHistory();

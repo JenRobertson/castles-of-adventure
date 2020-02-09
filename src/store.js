@@ -7,7 +7,7 @@ export let STORE = {
         x: 2,
         y: 6
     },
-    activeMaterial: 0,
+    activeMaterial: 'blank',
     activeTool: 0,
     tools: {
         brush: 'BRUSH',

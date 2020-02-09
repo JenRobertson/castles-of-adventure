@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "start": "webpack-dev-server --open --config webpack.dev.js",
+    "test": "mocha --require @babel/register --recursive",
     "build": "npm run colourPngs && npm run compressImages && webpack --config webpack.prod.js",
     "build-basic": "npm run colourPngs && npm run move",
     "watch": "webpack --watch",
@@ -15,6 +16,11 @@
     "resizeImages": "node ./src/config/resize.js",
     "compressImages": "node ./src/config/compress.js",
     "move": "node ./src/config/move.js"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env"
+    ]
   },
   "repository": {
     "type": "git",
@@ -27,8 +33,9 @@
   },
   "homepage": "https://github.com/JenRobertson/castles-of-adventure#readme",
   "devDependencies": {
+    "@babel/register": "^7.4.4",
     "@babel/core": "^7.4.5",
-    "@babel/preset-env": "^7.4.5",
+    "@babel/preset-env": "^7.8.4",
     "babel-loader": "^8.0.6",
     "clean-webpack-plugin": "^2.0.1",
     "compress-images": "^1.5.8",
@@ -37,6 +44,7 @@
     "fs-extra": "^7.0.1",
     "html-webpack-plugin": "^3.2.0",
     "jimp": "^0.6.1",
+    "mocha": "^7.0.1",
     "path": "^0.12.7",
     "pngjs": "^3.4.0",
     "style-loader": "^0.23.1",
