@@ -171,19 +171,20 @@ function click() {
 
 function makeEdges(y, x){
     const map = STORE.map;
-    // todo deal with edge of map
     // todo what should happen when filling in the edge parts with another tools (e.g. filling in wall with water)
-    STORE.map.data[y - 1][x - 1] = getBlockSprite(map, y - 1, x - 1);
-    STORE.map.data[y - 1][x]     = getBlockSprite(map, y - 1, x);
-    STORE.map.data[y - 1][x + 1] = getBlockSprite(map, y - 1, x + 1);
 
-    STORE.map.data[y][x - 1] = getBlockSprite(map, y, x - 1);
-    STORE.map.data[y][x] =     getBlockSprite(map, y, x);
-    STORE.map.data[y][x + 1] = getBlockSprite(map, y, x + 1);
-
-    STORE.map.data[y + 1][x - 1] = getBlockSprite(map, y + 1, x - 1);
-    STORE.map.data[y + 1][x]     = getBlockSprite(map, y + 1, x);
-    STORE.map.data[y + 1][x + 1] = getBlockSprite(map, y + 1, x + 1);
+    // check edges for 9 blocks around the block
+    for (let yOffset = -1; yOffset < 2; yOffset++) {
+        for (let xOffset = -1; xOffset < 2; xOffset++) {
+            const xCoordinate = x + xOffset;
+            const yCoordinate = y + yOffset;
+            const mapBlock = STORE.map.data[yCoordinate] && STORE.map.data[yCoordinate][xCoordinate];
+            
+            if (mapBlock) {
+                STORE.map.data[yCoordinate][xCoordinate] = getBlockSprite(map, yCoordinate, xCoordinate);
+            }
+        }
+    }
 }
 
 function fillBucket(x, y, typeToFill) {
