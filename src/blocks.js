@@ -63,27 +63,21 @@ export function getBlockSprite(map, y, x) {
             if (blockBottomRight !== blockType) {
                 cornerLabelArray.push('br');
             }
-        }
-
-        if (blockLabelArray.includes('bottom')) {
+        } else if (blockLabelArray.includes('bottom')) {
             if (blockTopLeft !== blockType) {
                 cornerLabelArray.push('tl');
             }
             if (blockTopRight !== blockType) {
                 cornerLabelArray.push('tr');
             }
-        }
-                
-        if (blockLabelArray.includes('left')) {
+        } else if (blockLabelArray.includes('left')) {
             if (blockTopRight !== blockType) {
                 cornerLabelArray.push('tr');
             }
             if (blockBottomRight !== blockType) {
                 cornerLabelArray.push('br');
             }
-        }
-
-        if (blockLabelArray.includes('right')) {
+        } else if (blockLabelArray.includes('right')) {
             if (blockTopLeft !== blockType) {
                 cornerLabelArray.push('tl');
             }
@@ -92,7 +86,7 @@ export function getBlockSprite(map, y, x) {
             }
         }
 
-        if(cornerLabelArray.length) blockLabelArray.push(cornerLabelArray.join('-'));
+        if (cornerLabelArray.length) blockLabelArray.push(cornerLabelArray.join('-'));
 
     }
     else if (blockLabelArray.length === 3) {
