@@ -1,1 +1,0 @@
-Make inner corners look better

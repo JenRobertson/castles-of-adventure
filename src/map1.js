@@ -20,6 +20,27 @@ export const map1 = {
         'wall-top-right': { type: 'wall', sprite: 'wall-top-right', walkable: false , isEdge: true, hasEdges: true},
         'wall-top': { type: 'wall', sprite: 'wall-top', walkable: false , isEdge: true, hasEdges: true},
 
+        'wall-top-br': { type: 'wall', sprite: 'wall-top-br', walkable: false , isEdge: true, hasEdges: true},
+        'wall-bottom-tr': { type: 'wall', sprite: 'wall-bottom-tr', walkable: false , isEdge: true, hasEdges: true},
+        'wall-left-tr': { type: 'wall', sprite: 'wall-left-tr', walkable: false , isEdge: true, hasEdges: true},
+        'wall-right-tl': { type: 'wall', sprite: 'wall-right-tl', walkable: false , isEdge: true, hasEdges: true},
+
+        'wall-top-bl': { type: 'wall', sprite: 'wall-top-bl', walkable: false , isEdge: true, hasEdges: true},
+        'wall-bottom-tl': { type: 'wall', sprite: 'wall-bottom-tl', walkable: false , isEdge: true, hasEdges: true},
+        'wall-left-br': { type: 'wall', sprite: 'wall-left-br', walkable: false , isEdge: true, hasEdges: true},
+        'wall-right-bl': { type: 'wall', sprite: 'wall-right-bl', walkable: false , isEdge: true, hasEdges: true},
+
+        'wall-top-bl-br': { type: 'wall', sprite: 'wall-top-bl-br', walkable: false , isEdge: true, hasEdges: true},
+        'wall-bottom-tl-tr': { type: 'wall', sprite: 'wall-bottom-tl-tr', walkable: false , isEdge: true, hasEdges: true},
+        'wall-left-tr-br': { type: 'wall', sprite: 'wall-left-tr-br', walkable: false , isEdge: true, hasEdges: true},
+        'wall-right-tl-bl': { type: 'wall', sprite: 'wall-right-tl-bl', walkable: false , isEdge: true, hasEdges: true},
+
+
+        'wall-bottom-left-tr': { type: 'wall', sprite: 'wall-bottom-left-tr', walkable: false , isEdge: true, hasEdges: true},
+        'wall-bottom-right-tl': { type: 'wall', sprite: 'wall-bottom-right-tl', walkable: false , isEdge: true, hasEdges: true},
+        'wall-top-left-br': { type: 'wall', sprite: 'wall-top-left-br', walkable: false , isEdge: true, hasEdges: true},
+        'wall-top-right-bl': { type: 'wall', sprite: 'wall-top-right-bl', walkable: false , isEdge: true, hasEdges: true},
+
         'wall-bl': { type: 'wall', sprite: 'wall-bl', walkable: false , isEdge: true, hasEdges: true},
         'wall-br': { type: 'wall', sprite: 'wall-br', walkable: false , isEdge: true, hasEdges: true},
         'wall-tl': { type: 'wall', sprite: 'wall-tl', walkable: false , isEdge: true, hasEdges: true},
