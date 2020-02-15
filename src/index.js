@@ -171,15 +171,13 @@ function click() {
 
 function makeEdges(y, x){
     const map = STORE.map;
-    // todo what should happen when filling in the edge parts with another tools (e.g. filling in wall with water)
-
     // check edges for 9 blocks around the block
     for (let yOffset = -1; yOffset < 2; yOffset++) {
         for (let xOffset = -1; xOffset < 2; xOffset++) {
             const xCoordinate = x + xOffset;
             const yCoordinate = y + yOffset;
             const mapBlock = STORE.map.data[yCoordinate] && STORE.map.data[yCoordinate][xCoordinate];
-            
+
             if (mapBlock) {
                 STORE.map.data[yCoordinate][xCoordinate] = getBlockSprite(map, yCoordinate, xCoordinate);
             }
