@@ -2,6 +2,9 @@ export const map1 = {
     key: {
         blank: { sprite: 'blank',walkable: false },
         tiles: { sprite: 'tiles', walkable: true },
+        water: { sprite: 'water', walkable: false },
+        sand: { sprite: 'sand', walkable: true },
+        grass: { sprite: 'grass', walkable: true },
 
         'wall': { type: 'wall', sprite: 'wall', hasEdges: true, walkable: false, hasEdges: true},
         'wall-bottom-left-right': { type: 'wall', sprite: 'wall-bottom-left-right', walkable: false , isEdge: true, hasEdges: true},
@@ -59,9 +62,6 @@ export const map1 = {
         'wall-tr-bl-br': { type: 'wall', sprite: 'wall-tr-bl-br', walkable: false , isEdge: true, hasEdges: true},
         
         'wall-tl-tr-bl-br': { type: 'wall', sprite: 'wall-tl-tr-bl-br', walkable: false , isEdge: true, hasEdges: true},
-
-        water: { sprite: 'water', walkable: false },
-        sand: { sprite: 'sand', walkable: true }
     },
     data: [
         ['blank','blank','blank','blank','blank','blank','blank','blank','blank','blank','blank','blank','blank','blank','blank','blank','blank','blank','blank','blank'],
