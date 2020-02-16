@@ -5,6 +5,8 @@ export const map1 = {
         water: { sprite: 'water', walkable: false },
         sand: { sprite: 'sand', walkable: true },
         grass: { sprite: 'grass', walkable: true },
+        'door-red': { sprite: 'door-red', walkable: false},
+        'key-red': { sprite: 'key-red', walkable: false},
 
         'wall': { type: 'wall', sprite: 'wall', hasEdges: true, walkable: false, hasEdges: true},
         'wall-bottom-left-right': { type: 'wall', sprite: 'wall-bottom-left-right', walkable: false , isEdge: true, hasEdges: true},

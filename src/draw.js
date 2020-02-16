@@ -2,6 +2,7 @@ import { STORE } from './store.js';
 import { getSprite } from './assetLoader.js'
 
 export function draw() {
+    STORE.ctx.clearRect(0, 0, 10000, 10000);
     drawMap();
     drawCharacter();
 }
