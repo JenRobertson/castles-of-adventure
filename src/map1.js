@@ -6,7 +6,8 @@ export const map1 = {
         sand: { sprite: 'sand', walkable: true },
         grass: { sprite: 'grass', walkable: true },
         'door-red': { sprite: 'door-red', walkable: false},
-        'key-red': { sprite: 'key-red', walkable: false},
+
+        'key-red': { sprite: 'key-red', walkable: false, isObject: true},
 
         'wall': { type: 'wall', sprite: 'wall', hasEdges: true, walkable: false, hasEdges: true},
         'wall-bottom-left-right': { type: 'wall', sprite: 'wall-bottom-left-right', walkable: false , isEdge: true, hasEdges: true},
@@ -86,5 +87,27 @@ export const map1 = {
         ['blank','blank','blank','blank','blank','blank','blank','blank','blank','blank','blank','blank','blank','blank','blank','blank','blank','blank','blank','blank'],
         ['blank','blank','blank','blank','blank','blank','blank','blank','blank','blank','blank','blank','blank','blank','blank','blank','blank','blank','blank','blank'],
         ['blank','blank','blank','blank','blank','blank','blank','blank','blank','blank','blank','blank','blank','blank','blank','blank','blank','blank','blank','blank']
+    ],
+    items: [
+        ['key-red','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null'],
+        ['null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null'],
+        ['null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null'],
+        ['null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null'],
+        ['null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null'],
+        ['null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null'],
+        ['null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null'],
+        ['null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null'],
+        ['null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null'],
+        ['null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null'],
+        ['null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null'],
+        ['null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null'],
+        ['null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null'],
+        ['null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null'],
+        ['null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null'],
+        ['null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null'],
+        ['null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null'],
+        ['null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null'],
+        ['null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null'],
+        ['null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null','null']
     ]
 }

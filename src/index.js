@@ -151,12 +151,19 @@ function click() {
     const dataX = Math.trunc(cursorX / STORE.sizeOfBlock);
     const dataY = Math.trunc(cursorY / STORE.sizeOfBlock);
 
+    const isObject = STORE.map.key[STORE.activeMaterial].isObject;
+
   switch (STORE.activeTool) {
         case STORE.tools.brush:
-            STORE.map.data[dataY][dataX] = STORE.activeMaterial;
-            makeEdges(dataY, dataX)
+            if (isObject) {
+                STORE.map.items[dataY][dataX] = STORE.activeMaterial;
+            } else {
+                STORE.map.data[dataY][dataX] = STORE.activeMaterial;
+                makeEdges(dataY, dataX)
+            }
             break;
         case STORE.tools.fill:
+            if (isObject) break;
             fillBucket(dataX, dataY, STORE.map.data[dataY][dataX]);
             // make edges for whole map
             for (let y = 0; y < STORE.map.data.length; y++) {
