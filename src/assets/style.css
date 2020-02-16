@@ -70,3 +70,13 @@ button:disabled img {
 .active {
     background-color: #9e9e9e;
 }
+
+.pallet-div {
+    float: left;
+}
+
+.pallet-container {
+    background-color: white;
+    display: inline-block;
+    border: 2px black solid;
+}

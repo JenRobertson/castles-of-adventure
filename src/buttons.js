@@ -6,6 +6,18 @@ const UNDO_LIMIT = 100;
 let undoButton, redoButton;
 
 export function addDesignerButtons() {
+    const palletContainer = document.createElement("div");
+    palletContainer.classList.add('pallet-container');
+
+    const blocksDiv = document.createElement("div");
+    blocksDiv.classList.add('pallet-div','blocks-div');
+
+    const toolsDiv = document.createElement("div");
+    toolsDiv.classList.add('pallet-div','tools-div');
+
+    const objectsDiv = document.createElement("div");
+    objectsDiv.classList.add('pallet-div','objects-div');
+
     // colour palette buttons
     for (const key in STORE.map.key) {
         const element = STORE.map.key[key];    
@@ -18,9 +30,17 @@ export function addDesignerButtons() {
             STORE.activeMaterial = key;
             STORE.map.key[STORE.activeMaterial].button.classList.add('active');
         };
-        document.body.append(button);
+
+        if (element.isObject){
+            objectsDiv.append(button);
+        } else {
+            blocksDiv.append(button);
+        }
         element.button = button;
         STORE.map.key[STORE.activeMaterial].button.classList.add('active')
+
+        palletContainer.append(objectsDiv);
+        palletContainer.append(blocksDiv);
     }
 
 
@@ -40,7 +60,7 @@ export function addDesignerButtons() {
             fillButton.classList.remove('active');
         }
     }
-    document.body.append(brushButton);
+    toolsDiv.append(brushButton);
 
     // fill button
     let fillButton = document.createElement("button");
@@ -58,7 +78,7 @@ export function addDesignerButtons() {
             brushButton.classList.remove('active');
         }
     }
-    document.body.append(fillButton);
+    toolsDiv.append(fillButton);
 
     // undo button
     undoButton = document.createElement("button");
@@ -70,7 +90,7 @@ export function addDesignerButtons() {
         draw();
         updateHistoryButtons();
     }
-    document.body.append(undoButton);
+    toolsDiv.append(undoButton);
 
     // redo button
     redoButton = document.createElement("button");
@@ -82,7 +102,7 @@ export function addDesignerButtons() {
         draw();
         updateHistoryButtons();
     }
-    document.body.append(redoButton);
+    toolsDiv.append(redoButton);
 
     // clear button
     let clearButton = document.createElement("button");
@@ -95,7 +115,7 @@ export function addDesignerButtons() {
         draw();
         saveMapToHistory();
     }
-    document.body.append(clearButton);
+    toolsDiv.append(clearButton);
 
     // save data button
     let saveMapButton = document.createElement("button");
@@ -109,7 +129,10 @@ export function addDesignerButtons() {
         document.execCommand("copy");
         document.body.removeChild(dummy);
     }
-    document.body.append(saveMapButton);
+    toolsDiv.append(saveMapButton);
+
+    palletContainer.append(toolsDiv);
+    document.body.append(palletContainer);
 }
 
 export function updateHistoryButtons() {
