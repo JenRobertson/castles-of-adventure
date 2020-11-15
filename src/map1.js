@@ -8,6 +8,7 @@ export const map1 = {
         'door-red': { sprite: 'door-red', walkable: false},
 
         'key-red': { sprite: 'key-red', walkable: false, isObject: true},
+        'key-yellow': { sprite: 'key-yellow', walkable: false, isObject: true},
 
         'wall': { type: 'wall', sprite: 'wall', hasEdges: true, walkable: false, hasEdges: true},
         'wall-bottom-left-right': { type: 'wall', sprite: 'wall-bottom-left-right', walkable: false , isEdge: true, hasEdges: true},

@@ -158,6 +158,7 @@ function click() {
         case STORE.tools.brush:
             if (isObject) {
                 if (!STORE.map.key[dataElement.block].walkable) return; // Dont draw object on non walkable block
+                dataElement.item = STORE.activeMaterial;
             } else {
                 if (!STORE.map.key[STORE.activeMaterial].walkable) dataElement.item = ''; // If this is non walkable block then delete the object
                 dataElement.block = STORE.activeMaterial;
