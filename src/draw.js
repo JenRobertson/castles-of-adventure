@@ -17,17 +17,17 @@ function drawMap() {
     const map = STORE.map;
     for (let y = 0; y < map.data.length; y++) {
         for (let x = 0; x < map.data.length; x++) {
-            STORE.ctx.drawImage(getSprite(map.key[map.data[y][x]].sprite), x * STORE.sizeOfBlock, y * STORE.sizeOfBlock, STORE.sizeOfBlock, STORE.sizeOfBlock);
+            STORE.ctx.drawImage(getSprite(map.key[map.data[y][x].block].sprite), x * STORE.sizeOfBlock, y * STORE.sizeOfBlock, STORE.sizeOfBlock, STORE.sizeOfBlock);
         }
     }
 }
 
 function drawItems() {
     const map = STORE.map;
-    for (let y = 0; y < map.items.length; y++) {
-        for (let x = 0; x < map.items.length; x++) {
-            if (map.items[y][x] !== 'null') {
-                STORE.ctx.drawImage(getSprite(map.key[map.items[y][x]].sprite), x * STORE.sizeOfBlock, y * STORE.sizeOfBlock, STORE.sizeOfBlock, STORE.sizeOfBlock);
+    for (let y = 0; y < map.data.length; y++) {
+        for (let x = 0; x < map.data.length; x++) {
+            if (map.data[y][x].item) {
+                STORE.ctx.drawImage(getSprite(map.key[map.data[y][x].item].sprite), x * STORE.sizeOfBlock, y * STORE.sizeOfBlock, STORE.sizeOfBlock, STORE.sizeOfBlock);
             }
         }
     }

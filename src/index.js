@@ -54,25 +54,25 @@ function keydown() {
     switch(event.code) {
         case "KeyS":
         case "ArrowDown":
-            if (map.key[map.data[character.y + 1][character.x]].walkable) {
+            if (map.key[map.data[character.y + 1][character.x].block].walkable) {
                 character.y++;
             }
             break;
         case "KeyW":
         case "ArrowUp":
-            if (map.key[map.data[character.y - 1][character.x]].walkable) {
+            if (map.key[map.data[character.y - 1][character.x].block].walkable) {
                 character.y--;
             }
             break;
         case "KeyA":
         case "ArrowLeft":
-            if (map.key[map.data[character.y][character.x - 1]].walkable) {
+            if (map.key[map.data[character.y][character.x - 1].block].walkable) {
                 character.x--;
             }
             break;
         case "KeyD":
         case "ArrowRight":
-            if (map.key[map.data[character.y][character.x + 1]].walkable) {
+            if (map.key[map.data[character.y][character.x + 1].block].walkable) {
                 character.x++;
             }
             break;
@@ -156,19 +156,19 @@ function click() {
   switch (STORE.activeTool) {
         case STORE.tools.brush:
             if (isObject) {
-                STORE.map.items[dataY][dataX] = STORE.activeMaterial;
+                STORE.map.data[dataY][dataX].item = STORE.activeMaterial;
             } else {
-                STORE.map.data[dataY][dataX] = STORE.activeMaterial;
+                STORE.map.data[dataY][dataX].block = STORE.activeMaterial;
                 makeEdges(dataY, dataX)
             }
             break;
         case STORE.tools.fill:
             if (isObject) break;
-            fillBucket(dataX, dataY, STORE.map.data[dataY][dataX]);
+            fillBucket(dataX, dataY, STORE.map.data[dataY][dataX].block);
             // make edges for whole map
             for (let y = 0; y < STORE.map.data.length; y++) {
                 for (let x = 0; x < STORE.map.data.length; x++) {
-                    STORE.map.data[y][x] = getBlockSprite(STORE.map, y, x);
+                    STORE.map.data[y][x].block = getBlockSprite(STORE.map, y, x);
                 }
             }
             break;
@@ -183,20 +183,20 @@ function makeEdges(y, x){
         for (let xOffset = -1; xOffset < 2; xOffset++) {
             const xCoordinate = x + xOffset;
             const yCoordinate = y + yOffset;
-            const mapBlock = STORE.map.data[yCoordinate] && STORE.map.data[yCoordinate][xCoordinate];
+            const mapBlock = STORE.map.data[yCoordinate] && STORE.map.data[yCoordinate][xCoordinate] && STORE.map.data[yCoordinate][xCoordinate].block;
 
             if (mapBlock) {
-                STORE.map.data[yCoordinate][xCoordinate] = getBlockSprite(map, yCoordinate, xCoordinate);
+                STORE.map.data[yCoordinate][xCoordinate].block = getBlockSprite(map, yCoordinate, xCoordinate);
             }
         }
     }
 }
 
 function fillBucket(x, y, typeToFill) {
-    if(typeof STORE.map.data[y] === 'undefined' || typeof STORE.map.data[y][x] === 'undefined') return;
-    if (STORE.map.data[y][x] === STORE.activeMaterial) return; // already filled
-    if (STORE.map.data[y][x] !== typeToFill) return; // we should not fill this, wrong colour
-    STORE.map.data[y][x] = STORE.activeMaterial;
+    if (typeof STORE.map.data[y] === 'undefined' || typeof STORE.map.data[y][x] === 'undefined') return;
+    if (STORE.map.data[y][x].block === STORE.activeMaterial) return; // already filled
+    if (STORE.map.data[y][x].block !== typeToFill) return; // we should not fill this, wrong colour
+    STORE.map.data[y][x].block = STORE.activeMaterial;
 
     fillBucket(x - 1, y, typeToFill);
     fillBucket(x + 1, y, typeToFill);
