@@ -152,19 +152,21 @@ function click() {
     const dataY = Math.trunc(cursorY / STORE.sizeOfBlock);
 
     const isObject = STORE.map.key[STORE.activeMaterial].isObject;
+    const dataElement = STORE.map.data[dataY][dataX];
 
   switch (STORE.activeTool) {
         case STORE.tools.brush:
             if (isObject) {
-                STORE.map.data[dataY][dataX].item = STORE.activeMaterial;
+                if (!STORE.map.key[dataElement.block].walkable) return; // Dont draw object on non walkable block
             } else {
-                STORE.map.data[dataY][dataX].block = STORE.activeMaterial;
+                if (!STORE.map.key[STORE.activeMaterial].walkable) dataElement.item = ''; // If this is non walkable block then delete the object
+                dataElement.block = STORE.activeMaterial;
                 makeEdges(dataY, dataX)
             }
             break;
         case STORE.tools.fill:
             if (isObject) break;
-            fillBucket(dataX, dataY, STORE.map.data[dataY][dataX].block);
+            fillBucket(dataX, dataY, dataElement.block);
             // make edges for whole map
             for (let y = 0; y < STORE.map.data.length; y++) {
                 for (let x = 0; x < STORE.map.data.length; x++) {
