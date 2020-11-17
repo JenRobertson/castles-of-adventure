@@ -170,7 +170,7 @@ function click() {
             fillBucket(dataX, dataY, dataElement.block);
             // make edges for whole map
             for (let y = 0; y < STORE.map.data.length; y++) {
-                for (let x = 0; x < STORE.map.data.length; x++) {
+                for (let x = 0; x < STORE.map.data[0].length; x++) {
                     STORE.map.data[y][x].block = getBlockSprite(STORE.map, y, x);
                 }
             }
